@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MyTravelMap ::</title>
+<link rel="stylesheet" href="/stylesheets/custom.css">
+<script type="text/javascript" src="./wicket/resource/org.apache.wicket.resource.JQueryResourceReference/jquery/jquery-3.7.1-ver-962A4A135B116C30221466C5E4F0E7A1.js" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g"></script>
+<script type="text/javascript" src="./wicket/resource/com.googlecode.wicket.jquery.ui.resource.JQueryUIResourceReference/jquery-ui-ver-8C99BD451C61081551AE59CEA942D1FC.js" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g"></script>
+<script type="text/javascript" src="./wicket/resource/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/res/js/wicket-ajax-jquery-ver-EF5CE716023AC851E8B721946431BE44.js" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g"></script>
+<script type="text/javascript" id="wicket-ajax-base-url" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g">
+/*<![CDATA[*/
+Wicket.Ajax.baseUrl="?0";
+/*]]>*/
+</script>
+<style type="text/css" id="jquery-ui-icon-indicator" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g">
+.ui-icon.ui-icon-indicator { background-image: url(./wicket/resource/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator-ver-03CE3DCC84AF110E9DA8699A841E5200.gif) !important; background-position: 0 0; }</style>
+
+<meta property="fb:app_id" content="1686133924942854"/>
+<meta property="og:type" content="website" />
+<meta property="og:title" content="MyTravelMap ::" />
+<meta property="og:description" content="Crea la tua mappa di viaggio e condividila con i tuoi amici"/>
+<meta property="og:image" content="https://www.mytravelmap.xyz/worldMap/images/408/264/fb10154281877358816/1780744032863.png"/>
+<script type="text/javascript" id="tk-mytravelmap-presentation-page-home-HomePage-0">
+/*<![CDATA[*/
+
+var countries = [];
+var countriesIsoCodeCountryMap = [];
+var autocompleteCountryStateIdArray = [];
+
+/*]]>*/
+</script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/pages/HomePage.css?202606140015" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-social-custom.css" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/ui-lightness/jquery-ui.min.css" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g" />
+<script type="text/javascript" id="FUCKING_EU_COOKIE" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g">
+/*<![CDATA[*/
+window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website. By using this website you agree to the use of cookies.","dismiss":"Got it!","learnMore":"More info","link":"/privacy#cookiesPolicy","theme":"light-floating"};
+/*]]>*/
+</script>
+<script type="text/javascript" id="FUCKING_EU_COOKIE_CONSENT_SCRIPT" src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g"></script>
+<script type="text/javascript" id="dialogBtns" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g">
+/*<![CDATA[*/
+var dialogBtnBorn = "Sono nato/a qui";var dialogBtnLived = "Ho vissuto qui";var dialogBtnVisited = "Ho visitato";var dialogBtnWantToVisit = "Voglio visitare";var dialogBtnRemoveCountry = "Rimuovi questo Paese dalla mia mappa!";
+/*]]>*/
+</script>
+<script type="text/javascript" id="yesimOfferTexts" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g">
+/*<![CDATA[*/
+var yesimOfferKicker = "Sponsorizzato";var yesimOfferLinkText = "Ottieni eSIM da viaggio";var yesimOfferHeadlineTemplate = "%country%. Ti servono dati mobili?";var yesimOfferDescriptionDefault = "Usa una eSIM da viaggio di Yesim e installala prima di partire.";var yesimOfferDescriptionWithPriceTemplate = "I piani eSIM da viaggio Yesim per %country% partono da %price%.";
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/data/countries_it.js?202606111950" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g"></script>
+<script type="text/javascript" nonce="Jjm-Ze77BmiPoVvi4N9U5u4g">
+/*<![CDATA[*/
+Wicket.Event.add(window, "domready", function(event) { 
+Wicket.Event.add('id6', 'click', function(event) { var w = window.open('./privacy', 'popuppagemap', 'scrollbars=no,location=no,menuBar=no,resizable=no,status=no,toolbar=no,width=500,height=500'); try {if (w.blur) w.focus();}catch(ignore){}; return false;;});;
+jQuery('#wipeOutDialog').dialog({ "buttons": [ {'id': 'btn01', 'text': "Ok", icons: { primary: '' }, 'click': function() { Wicket.Ajax.ajax({"u":"./?0-4.0-shareButtonsContainer-wipeOutDialog","c":"wipeOutDialog"}); }}, {'id': 'btn02', 'text': "Cancel", icons: { primary: '' }, 'click': function() { Wicket.Ajax.ajax({"u":"./?0-4.1-shareButtonsContainer-wipeOutDialog","c":"wipeOutDialog"}); }} ], "resizable": false, "autoOpen": false, "width": 450, "title": "Cancella tutti i miei dati da MyTravelMap", "modal": true });;
+Wicket.Ajax.ajax({"u":"./?0-4.0-shareButtonsContainer-wipeOutLink","c":"wipeOutLink","e":"click","pd":true});;
+jQuery('#permalinkDialog').dialog({ "buttons": [ {'id': 'btn00', 'text': "Ok", icons: { primary: '' }, 'click': function() { Wicket.Ajax.ajax({"u":"./?0-4.0-shareButtonsContainer-permalinkDialog","c":"permalinkDialog"}); }} ], "resizable": false, "autoOpen": false, "width": 450, "title": "Permalink", "modal": true });;
+Wicket.Ajax.ajax({"u":"./?0-4.0-shareButtonsContainer-permalink","c":"permalink","e":"click","pd":true});;
+jQuery('#id1').dialog({ "buttons": [ {'id': 'btn3b87', 'text': "Scarica la tua mappa", icons: { primary: '' }, 'click': function() { Wicket.Ajax.ajax({"u":"./?0-4.0-shareButtonsContainer-wallpaperConfigDialog","m":"POST","c":"id1","f":"id1a"}); }}, {'id': 'btn3b88', 'text': "Aprire la mappa", icons: { primary: '' }, 'click': function() { Wicket.Ajax.ajax({"u":"./?0-4.1-shareButtonsContainer-wallpaperConfigDialog","m":"POST","c":"id1","f":"id1a"}); }} ], "resizable": true, "autoOpen": false, "width": 450, "dialogClass": "mytravelmap-dialog wallpaper-map-dialog", "title": "Wallpaper Map", "modal": true });;
+Wicket.Ajax.ajax({"u":"./?0-4.0-shareButtonsContainer-wallpaperLink","c":"id1b","e":"click","pd":true});;
+jQuery('#id2').dialog({ "buttons": [ {'id': 'btn00', 'text': "Ok", icons: { primary: '' }, 'click': function() { Wicket.Ajax.ajax({"u":"./?0-4.0-nonExistingCountryDialog","c":"id2"}); }} ], "resizable": false, "autoOpen": false, "width": 450, "title": "Ciao!", "modal": true });;
+Wicket.Ajax.ajax({"u":"./?0-4.0-form-x","m":"POST","c":"x","e":"change"});;
+Wicket.Event.publish(Wicket.Event.Topic.AJAX_HANDLERS_BOUND);
+;});
+/*]]>*/
+</script>
+<meta name="wicket.header.items"/>
+<script type="text/javascript" src="/js/pages/HomePage.js?202606131200"></script>
+<script>
+/*<![CDATA[*/
+
+function isAccountMenuAvailable() {
+return document.getElementById("accountMenuPanel") !== null;
+}
+function menuOpen() {
+var menu = document.getElementById("menu");
+if (!menu) {
+return;
+}
+var isAccountMenu = isAccountMenuAvailable();
+var accountMenuButton = document.getElementById("accountMenuButton");
+menu.classList.toggle("account-menu-dropdown", isAccountMenu);
+menu.classList.toggle("login-sidebar", !isAccountMenu);
+menu.style.width = isAccountMenu ? "" : "100%";
+menu.style.display = "flex";
+if (accountMenuButton) {
+accountMenuButton.setAttribute("aria-expanded", "true");
+}
+document.body.classList.add("main-menu-open");
+if (!isAccountMenu) {
+document.body.classList.add("sidebar-open");
+}
+}
+function menuClose() {
+var menu = document.getElementById("menu");
+var accountMenuButton = document.getElementById("accountMenuButton");
+if (!menu) {
+return;
+}
+menu.style.display = "none";
+menu.style.width = "";
+if (accountMenuButton) {
+accountMenuButton.setAttribute("aria-expanded", "false");
+}
+document.body.classList.remove("main-menu-open");
+if (isLanguageClosed()) {
+document.body.classList.remove("sidebar-open");
+}
+}
+function isMenuClosed() {
+return document.getElementById("menu").style.display == "none";
+}
+function languageOpen() {
+document.getElementById("language-container").style.width = "100%";
+document.getElementById("language-container").style.display = "flex";
+document.body.classList.add("main-menu-open");
+document.body.classList.add("sidebar-open");
+}
+function languageClose() {
+document.getElementById("language-container").style.display = "none";
+document.body.classList.remove("main-menu-open");
+if (isMenuClosed()) {
+document.body.classList.remove("sidebar-open");
+}
+}
+function isLanguageClosed() {
+return document.getElementById("language-container").style.display == "none";
+}
+function menuToggle() {
+languageClose();
+if (isMenuClosed()) {
+menuOpen();
+} else {
+menuClose();
+}
+}
+function languageToggle() {
+menuClose();
+if (isLanguageClosed()) {
+languageOpen();
+} else {
+languageClose();
+}
+}
+
+/*]]>*/
+</script>
+<style type="text/css">
+/*<![CDATA[*/
+
+#translateLanguages {
+margin: 0px auto;
+}
+#translateLanguages td {
+padding: 0.1em 0.5em;
+text-align: left;
+}
+#translateLanguages td a {
+color: gray;
+letter-spacing: 0.1em;
+}
+#languageItems {
+display: grid;
+gap: 12px;
+grid-template-columns: repeat(3, minmax(0, 1fr));
+margin: 0 auto;
+max-width: 920px;
+padding: 24px 16px 40px 16px;
+}
+.ui-dialog-buttonset {
+width: 95%;
+}
+#wallpaperConfigTable {
+border: none;
+border-collapse: collapse;
+width: 100%;
+}
+#wallpaperConfigTable td {
+border: none;
+padding: 0.3em 0.5em;
+}
+#wallpaperConfigTable td input[type='color'] {
+height: 2em;
+width: 4em;
+}
+#wallpaperConfigTable td input[type='number'] {
+width: 4em;
+}
+#wallpaperConfigTable td.wallpaperLabel {
+color: black;
+font-weight: bold;
+text-align: right;
+width: 60%;
+}
+html[dir="rtl"] #wallpaperConfigTable td.wallpaperLabel {
+text-align: left;
+}
+div.languageItem {
+padding: 0;
+}
+div.languageItem a {
+align-items: center;
+background-color: #f7f7f7;
+border: solid 1px #dddddd;
+border-radius: 12px;
+color: #2f5f86;
+display: flex;
+gap: 0.75em;
+min-height: 48px;
+padding: 0.65em 0.8em;
+text-decoration: none;
+}
+div.languageItem a:hover {
+background-color: #eeeeee;
+}
+div.languageItem .language-flag {
+flex: 0 0 auto;
+height: 24px;
+width: 24px;
+}
+div.languageItem .language-text {
+min-width: 0;
+}
+div.languageItem .upper {
+font-size: 1em;
+}
+div.languageItem .lower {
+font-size: 0.75em;
+}
+#topBar .topbar-layout {
+align-items: center;
+display: grid;
+gap: 0.6rem;
+grid-template-columns: minmax(78px, auto) 1fr minmax(78px, auto);
+padding: 0 0.55rem;
+}
+#topBar .topbar-action {
+display: flex;
+min-width: 0;
+}
+#topBar .topbar-left {
+justify-content: flex-start;
+}
+#topBar .topbar-right {
+justify-content: flex-end;
+}
+#topBar .topbar-message {
+font-size: 0.82em;
+line-height: 1.25;
+min-width: 0;
+text-align: center;
+}
+#topBar .custom-button {
+align-items: center;
+border-radius: 0;
+display: inline-flex;
+gap: 0.45em;
+min-height: 44px;
+padding-left: 0.75em;
+padding-right: 0.75em;
+white-space: nowrap;
+}
+#topBar .topbar-button-label,
+#topBar .topbar-language-button span {
+white-space: nowrap;
+}
+#topBar .topbar-language-flag {
+flex: 0 0 auto;
+height: 24px;
+width: 24px;
+}
+#topBar .topbar-menu-icon {
+font-size: 1.05em;
+margin-right: 0.35em;
+}
+.app-sidebar {
+background-color: rgba(255, 255, 255, 0.98);
+bottom: 0;
+flex-direction: column;
+height: 100vh;
+height: 100dvh;
+left: 0;
+overflow: hidden;
+position: fixed !important;
+right: 0;
+top: 0;
+z-index: 1000;
+}
+body.sidebar-open {
+overflow: hidden;
+}
+.app-sidebar-header {
+align-items: center;
+background-color: #505050;
+color: white;
+display: flex;
+flex: 0 0 auto;
+font-size: 1.1em;
+font-weight: bold;
+justify-content: space-between;
+min-height: 52px;
+padding: 0.45rem 0.75rem;
+}
+.app-sidebar-close {
+background-color: transparent;
+border: solid 1px rgba(255, 255, 255, 0.55);
+border-radius: 999px;
+color: white;
+cursor: pointer;
+font-size: 1.5em;
+height: 40px;
+line-height: 1;
+min-width: 40px;
+}
+.app-sidebar-body {
+flex: 1 1 auto;
+overflow-y: auto;
+-webkit-overflow-scrolling: touch;
+overscroll-behavior: contain;
+}
+.language-sidebar .app-sidebar-body {
+background: linear-gradient(180deg, #ffffff 0%, #f2f5f7 100%);
+}
+.account-menu-dropdown {
+background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+border: solid 1px rgba(42, 58, 76, 0.16);
+border-radius: 18px;
+bottom: auto;
+box-shadow: 0 18px 48px rgba(21, 38, 58, 0.22);
+box-sizing: border-box;
+height: auto;
+left: 0.55rem;
+max-height: calc(100vh - 72px);
+max-height: calc(100dvh - 72px);
+overflow: visible;
+right: auto;
+top: 58px;
+width: min(390px, calc(100vw - 1.1rem)) !important;
+z-index: 1001;
+}
+.account-menu-dropdown .app-sidebar-header {
+background: transparent;
+border-bottom: solid 1px rgba(42, 58, 76, 0.1);
+color: #26313d;
+display: none;
+min-height: 44px;
+padding: 0.7rem 0.85rem;
+}
+.account-menu-dropdown .app-sidebar-close {
+background-color: #eef3f7;
+border: none;
+color: #4d5661;
+height: 34px;
+min-width: 34px;
+}
+.account-menu-dropdown .app-sidebar-body {
+background: transparent;
+overflow: visible;
+padding: 10px;
+}
+.account-menu-panel {
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+#accountMenuActionsSlot {
+min-width: 0;
+width: 100%;
+}
+.account-menu-link {
+align-items: center;
+background-color: #ffffff;
+border: solid 1px rgba(42, 58, 76, 0.1);
+border-radius: 14px;
+box-shadow: 0 8px 18px rgba(27, 42, 60, 0.06);
+box-sizing: border-box;
+color: #26313d;
+display: flex;
+gap: 0.65em;
+min-height: 50px;
+padding: 0.85em 1em;
+text-decoration: none;
+width: 100%;
+}
+.account-menu-link:hover,
+.account-menu-link:focus {
+background-color: #f9fcff;
+border-color: rgba(47, 95, 134, 0.35);
+color: #17222f;
+text-decoration: none;
+}
+.account-menu-link .fa {
+color: #5f7f98;
+text-align: center;
+width: 1.1em;
+}
+@media (max-width: 700px) {
+#topBar {
+font-size: 0.9em;
+opacity: 0.94;
+}
+#topBar .topbar-layout {
+gap: 0.35rem;
+grid-template-columns: auto minmax(0, 1fr) auto;
+padding: 0.35rem 0.45rem;
+}
+#topBar .topbar-message {
+font-size: 0.78em;
+line-height: 1.2;
+}
+#topBar .custom-button {
+font-size: 1em !important;
+min-height: 42px;
+padding-left: 0.6em;
+padding-right: 0.6em;
+}
+#topBar .topbar-language-button {
+max-width: 96px;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+#languageItems {
+gap: 10px;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+padding: 14px 12px 28px 12px;
+}
+.account-menu-dropdown {
+left: 12px;
+max-height: calc(100vh - 76px);
+max-height: calc(100dvh - 76px);
+top: 64px;
+width: calc(100vw - 24px) !important;
+}
+div.languageItem a {
+min-height: 54px;
+padding: 0.65em;
+}
+#translateLanguages {
+display: block;
+overflow-x: auto;
+max-width: 100%;
+}
+}
+
+/*]]>*/
+</style>
+</head>
+<body>
+<div id="topBar">
+<div class="topbar-layout">
+<div class="topbar-action topbar-left">
+
+<button id="accountMenuButton" type="button" class="custom-button custom-grey custom-large" onclick="menuToggle()" aria-controls="menu" aria-expanded="false">
+<span class="fa fa-bars topbar-menu-icon" aria-hidden="true"></span><span class="topbar-button-label">Menu</span>
+</button>
+</div>
+<div class="topbar-message" id="id7">78 paesi | 21,06% del mondo | 5/6 continenti</div>
+<div class="topbar-action topbar-right"><button type="button" class="custom-button custom-grey custom-large topbar-language-button" onclick="languageToggle()"><img class="topbar-language-flag" src="/images/flags_iso/24/it.png" alt=""/><span>Italiano</span></button></div>
+</div>
+</div>
+<div class="custom-sidebar custom-bar-block app-sidebar login-sidebar" style="display:none" id="menu" role="dialog" aria-modal="true">
+<div class="app-sidebar-header">
+
+<span>Menu</span>
+<button type="button" class="app-sidebar-close" onclick="menuClose()" aria-label="Close">&times;</button>
+</div>
+<div class="app-sidebar-body">
+
+<div id="accountMenuPanel" class="account-menu-panel">
+<div id="accountMenuActionsSlot"></div>
+<a href="./?0-4.-accountMenuPanel-logout" class="account-menu-link account-menu-logout">
+<span class="fa fa-sign-out" aria-hidden="true"></span><span>Uscire</span>
+</a>
+</div>
+</div>
+</div>
+<div class="custom-sidebar custom-bar-block app-sidebar language-sidebar" style="display:none" id="language-container" role="dialog" aria-modal="true">
+<div class="app-sidebar-header">
+<span>Languages</span>
+<button type="button" class="app-sidebar-close" onclick="languageClose()" aria-label="Close">&times;</button>
+</div>
+<div class="app-sidebar-body">
+<div id="languageItems">
+<div class="languageItem">
+<a href="./?locale=sq"><img class="language-flag" src="/images/flags_iso/24/al.png" alt=""/><span class="language-text"><span class="upper">Shqip</span><br/><span class="lower">Albanian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=am"><img class="language-flag" src="/images/flags_iso/24/et.png" alt=""/><span class="language-text"><span class="upper">አማርኛ</span><br/><span class="lower">Amharic</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=ar"><img class="language-flag" src="/images/flags_iso/24/sa.png" alt=""/><span class="language-text"><span class="upper">العربية</span><br/><span class="lower">Arabic</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=hy"><img class="language-flag" src="/images/flags_iso/24/am.png" alt=""/><span class="language-text"><span class="upper">Հայերեն</span><br/><span class="lower">Armenian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=az"><img class="language-flag" src="/images/flags_iso/24/az.png" alt=""/><span class="language-text"><span class="upper">Azərbaycan</span><br/><span class="lower">Azerbaijani</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=bn"><img class="language-flag" src="/images/flags_iso/24/bd.png" alt=""/><span class="language-text"><span class="upper">বাংলা</span><br/><span class="lower">Bangla</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=be"><img class="language-flag" src="/images/flags_iso/24/by.png" alt=""/><span class="language-text"><span class="upper">Беларуская</span><br/><span class="lower">Belarusian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=bg"><img class="language-flag" src="/images/flags_iso/24/bg.png" alt=""/><span class="language-text"><span class="upper">Български</span><br/><span class="lower">Bulgarian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=my"><img class="language-flag" src="/images/flags_iso/24/mm.png" alt=""/><span class="language-text"><span class="upper">မြန်မာဘာသာ</span><br/><span class="lower">Burmese</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=ca"><img class="language-flag" src="/images/flags_iso/24/es.png" alt=""/><span class="language-text"><span class="upper">Català</span><br/><span class="lower">Catalan</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=zh-CN"><img class="language-flag" src="/images/flags_iso/24/cn.png" alt=""/><span class="language-text"><span class="upper">中文 (中国)</span><br/><span class="lower">Chinese (Simplified)</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=zh-TW"><img class="language-flag" src="/images/flags_iso/24/cn.png" alt=""/><span class="language-text"><span class="upper">中文 (台灣)</span><br/><span class="lower">Chinese (Traditional)</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=hr"><img class="language-flag" src="/images/flags_iso/24/hr.png" alt=""/><span class="language-text"><span class="upper">Hrvatski</span><br/><span class="lower">Croatian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=cs"><img class="language-flag" src="/images/flags_iso/24/cz.png" alt=""/><span class="language-text"><span class="upper">Čeština</span><br/><span class="lower">Czech</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=da"><img class="language-flag" src="/images/flags_iso/24/dk.png" alt=""/><span class="language-text"><span class="upper">Dansk</span><br/><span class="lower">Danish</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=nl"><img class="language-flag" src="/images/flags_iso/24/nl.png" alt=""/><span class="language-text"><span class="upper">Nederlands</span><br/><span class="lower">Dutch</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=en"><img class="language-flag" src="/images/flags_iso/24/gb.png" alt=""/><span class="language-text"><span class="upper">English</span><br/><span class="lower">English</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=et"><img class="language-flag" src="/images/flags_iso/24/et.png" alt=""/><span class="language-text"><span class="upper">Eesti</span><br/><span class="lower">Estonian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=fa"><img class="language-flag" src="/images/flags_iso/24/ir.png" alt=""/><span class="language-text"><span class="upper">فارسی</span><br/><span class="lower">Farsi / Persian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=fil"><img class="language-flag" src="/images/flags_iso/24/ph.png" alt=""/><span class="language-text"><span class="upper">Filipino</span><br/><span class="lower">Filipino</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=fi"><img class="language-flag" src="/images/flags_iso/24/fi.png" alt=""/><span class="language-text"><span class="upper">Suomi</span><br/><span class="lower">Finnish</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=fr"><img class="language-flag" src="/images/flags_iso/24/fr.png" alt=""/><span class="language-text"><span class="upper">Français</span><br/><span class="lower">French</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=ka"><img class="language-flag" src="/images/flags_iso/24/ge.png" alt=""/><span class="language-text"><span class="upper">ქართული</span><br/><span class="lower">Georgian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=de"><img class="language-flag" src="/images/flags_iso/24/de.png" alt=""/><span class="language-text"><span class="upper">Deutsch</span><br/><span class="lower">German</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=el"><img class="language-flag" src="/images/flags_iso/24/gr.png" alt=""/><span class="language-text"><span class="upper">Ελληνικά</span><br/><span class="lower">Greek</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=he"><img class="language-flag" src="/images/flags_iso/24/il.png" alt=""/><span class="language-text"><span class="upper">עברית</span><br/><span class="lower">Hebrew</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=hi"><img class="language-flag" src="/images/flags_iso/24/in.png" alt=""/><span class="language-text"><span class="upper">हिन्दी</span><br/><span class="lower">Hindi</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=hu"><img class="language-flag" src="/images/flags_iso/24/hu.png" alt=""/><span class="language-text"><span class="upper">Magyar</span><br/><span class="lower">Hungarian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=id"><img class="language-flag" src="/images/flags_iso/24/id.png" alt=""/><span class="language-text"><span class="upper">Bahasa Indonesia</span><br/><span class="lower">Indonesian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=it"><img class="language-flag" src="/images/flags_iso/24/it.png" alt=""/><span class="language-text"><span class="upper">Italiano</span><br/><span class="lower">Italian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=ja"><img class="language-flag" src="/images/flags_iso/24/jp.png" alt=""/><span class="language-text"><span class="upper">日本語</span><br/><span class="lower">Japanese</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=kk"><img class="language-flag" src="/images/flags_iso/24/kz.png" alt=""/><span class="language-text"><span class="upper">Қазақша</span><br/><span class="lower">Kazakh</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=ko"><img class="language-flag" src="/images/flags_iso/24/kr.png" alt=""/><span class="language-text"><span class="upper">한국어</span><br/><span class="lower">Korean</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=lo"><img class="language-flag" src="/images/flags_iso/24/la.png" alt=""/><span class="language-text"><span class="upper">ລາວ</span><br/><span class="lower">Lao</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=lv"><img class="language-flag" src="/images/flags_iso/24/lv.png" alt=""/><span class="language-text"><span class="upper">Latviešu</span><br/><span class="lower">Latvian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=lt"><img class="language-flag" src="/images/flags_iso/24/lt.png" alt=""/><span class="language-text"><span class="upper">Lietuvių</span><br/><span class="lower">Lithuanian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=ms"><img class="language-flag" src="/images/flags_iso/24/my.png" alt=""/><span class="language-text"><span class="upper">Bahasa Melayu</span><br/><span class="lower">Malay</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=mn"><img class="language-flag" src="/images/flags_iso/24/mn.png" alt=""/><span class="language-text"><span class="upper">Монгол</span><br/><span class="lower">Mongolian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=ne"><img class="language-flag" src="/images/flags_iso/24/np.png" alt=""/><span class="language-text"><span class="upper">नेपाली</span><br/><span class="lower">Nepali</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=no"><img class="language-flag" src="/images/flags_iso/24/no.png" alt=""/><span class="language-text"><span class="upper">Norsk</span><br/><span class="lower">Norwegian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=pl"><img class="language-flag" src="/images/flags_iso/24/pl.png" alt=""/><span class="language-text"><span class="upper">Polski</span><br/><span class="lower">Polish</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=pt-BR"><img class="language-flag" src="/images/flags_iso/24/br.png" alt=""/><span class="language-text"><span class="upper">Português (Brasil)</span><br/><span class="lower">Portuguese (Brazil)</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=pt-PT"><img class="language-flag" src="/images/flags_iso/24/pt.png" alt=""/><span class="language-text"><span class="upper">Português (Portugal)</span><br/><span class="lower">Portuguese (Portugal)</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=ro"><img class="language-flag" src="/images/flags_iso/24/ro.png" alt=""/><span class="language-text"><span class="upper">Română</span><br/><span class="lower">Romanian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=ru"><img class="language-flag" src="/images/flags_iso/24/ru.png" alt=""/><span class="language-text"><span class="upper">Русский</span><br/><span class="lower">Russian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=sr"><img class="language-flag" src="/images/flags_iso/24/rs.png" alt=""/><span class="language-text"><span class="upper">Српски</span><br/><span class="lower">Serbian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=sk"><img class="language-flag" src="/images/flags_iso/24/sk.png" alt=""/><span class="language-text"><span class="upper">Slovenčina</span><br/><span class="lower">Slovak</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=sl"><img class="language-flag" src="/images/flags_iso/24/si.png" alt=""/><span class="language-text"><span class="upper">Slovenščina</span><br/><span class="lower">Slovenian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=es"><img class="language-flag" src="/images/flags_iso/24/es.png" alt=""/><span class="language-text"><span class="upper">Español</span><br/><span class="lower">Spanish</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=sw"><img class="language-flag" src="/images/flags_iso/24/tz.png" alt=""/><span class="language-text"><span class="upper">Kiswahili</span><br/><span class="lower">Swahili</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=sv"><img class="language-flag" src="/images/flags_iso/24/se.png" alt=""/><span class="language-text"><span class="upper">Svenska</span><br/><span class="lower">Swedish</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=ta"><img class="language-flag" src="/images/flags_iso/24/in.png" alt=""/><span class="language-text"><span class="upper">தமிழ்</span><br/><span class="lower">Tamil</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=th"><img class="language-flag" src="/images/flags_iso/24/th.png" alt=""/><span class="language-text"><span class="upper">ไทย</span><br/><span class="lower">Thai</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=tr"><img class="language-flag" src="/images/flags_iso/24/tr.png" alt=""/><span class="language-text"><span class="upper">Türkçe</span><br/><span class="lower">Turkish</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=uk"><img class="language-flag" src="/images/flags_iso/24/ua.png" alt=""/><span class="language-text"><span class="upper">Українська</span><br/><span class="lower">Ukrainian</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=ur"><img class="language-flag" src="/images/flags_iso/24/pk.png" alt=""/><span class="language-text"><span class="upper">اردو</span><br/><span class="lower">Urdu</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=uz"><img class="language-flag" src="/images/flags_iso/24/uz.png" alt=""/><span class="language-text"><span class="upper">O‘zbek</span><br/><span class="lower">Uzbek</span></span></a>
+</div><div class="languageItem">
+<a href="./?locale=vi"><img class="language-flag" src="/images/flags_iso/24/vi.png" alt=""/><span class="language-text"><span class="upper">Tiếng Việt</span><br/><span class="lower">Vietnamese</span></span></a>
+</div>
+</div>
+</div>
+</div>
+
+<div id="shareButtonsContainer" class="map-actions">
+<button type="button" id="mapToolsToggle" class="map-tools-toggle" aria-controls="mapToolsSheet" aria-expanded="false">
+<span class="fa fa-sliders map-tools-toggle-icon" aria-hidden="true"></span>
+<span>Strumenti della mappa</span>
+</button>
+<div id="mapToolsBackdrop" class="map-tools-backdrop"></div>
+<div id="mapToolsSheet" class="map-tools-sheet" aria-labelledby="mapToolsTitle">
+<div class="map-tools-sheet-header">
+<div>
+<div id="mapToolsTitle" class="map-tools-sheet-title">Strumenti della mappa</div>
+<div class="map-tools-sheet-subtitle">Condividi ed esporta la tua mappa</div>
+</div>
+<button type="button" class="map-tools-close" aria-label="Chiudi">&times;</button>
+</div>
+<div class="map-tools-sheet-body">
+<ul class="menu map-action-list">
+<li class="btn-md share-menu-item map-action-item">
+<a class="share-menu-toggle map-action-link" href="#"><span class="fa fa-share-alt map-action-icon" aria-hidden="true"></span><span>Condividi</span><span class="fa fa-angle-down map-action-caret" aria-hidden="true"></span></a>
+<ul class="submenu share-network-list">
+<li>
+<a class="share-network share-network-facebook" href="https://www.facebook.com/dialog/share?app_id=1686133924942854&amp;display=page&amp;hashtag=%23mytravelmap&amp;href=https%3A%2F%2Fwww.mytravelmap.xyz%2Fcompare%2Ffb10154281877358816%2F1780744032863%3Flocale%3Dit" target="_blank" rel="noopener" id="id1c">
+<span class="share-network-icon fa fa-facebook" aria-hidden="true"></span><span class="share-network-label">Facebook</span>
+</a>
+</li>
+<li>
+<a class="share-network share-network-pinterest" href="https://pinterest.com/pin/create/button?url=https%3A%2F%2Fwww.mytravelmap.xyz%2Fcompare%2Ffb10154281877358816%2F1780744032863%3Flocale%3Dit&amp;description=Ho+esplorato+il+21.06%25+del+pianeta+%23mytravelmap&amp;media=https%3A%2F%2Fwww.mytravelmap.xyz%2FworldMap%2Fimages%2F408%2F264%2Ffb10154281877358816%2F1780744032863.png" target="_blank" rel="noopener" id="id1d">
+<span class="share-network-icon fa fa-pinterest" aria-hidden="true"></span><span class="share-network-label">Pinterest</span>
+</a>
+</li>
+<li>
+<a class="share-network share-network-tumblr" href="https://tumblr.com/widgets/share/tool?canonicalUrl=https%3A%2F%2Fwww.mytravelmap.xyz%2Fcompare%2Ffb10154281877358816%2F1780744032863%3Flocale%3Dit&amp;posttype=photo&amp;tags=mytravelmap&amp;content=https%3A%2F%2Fwww.mytravelmap.xyz%2FworldMap%2Fimages%2F408%2F264%2Ffb10154281877358816%2F1780744032863.png&amp;caption=Ho+esplorato+il+21.06%25+del+pianeta" target="_blank" rel="noopener" id="id1e">
+<span class="share-network-icon fa fa-tumblr" aria-hidden="true"></span><span class="share-network-label">Tumblr</span>
+</a>
+</li>
+<li>
+<a class="share-network share-network-twitter" href="https://twitter.com/intent/tweet?text=Ho+esplorato+il+21.06%25+del+pianeta+%23mytravelmap%0a&amp;url=https%3A%2F%2Fwww.mytravelmap.xyz%2Fcompare%2Ffb10154281877358816%2F1780744032863%3Flocale%3Dit&amp;lang=it" target="_blank" rel="noopener" id="id1f">
+<span class="share-network-icon fa fa-twitter" aria-hidden="true"></span><span class="share-network-label">Twitter</span>
+</a>
+</li>
+<li>
+<a class="share-network share-network-odnoklassniki" href="https://connect.ok.ru/offer?url=https%3A%2F%2Fwww.mytravelmap.xyz%2Fcompare%2Ffb10154281877358816%2F1780744032863%3Flocale%3Dit&amp;title=Ho+esplorato+il+21.06%25+del+pianeta+%23mytravelmap&amp;imageUrl=https%3A%2F%2Fwww.mytravelmap.xyz%2FworldMap%2Fimages%2F408%2F264%2Ffb10154281877358816%2F1780744032863.png" target="_blank" rel="noopener" id="id20">
+<span class="share-network-icon fa fa-odnoklassniki" aria-hidden="true"></span><span class="share-network-label">Odnoklassniki</span>
+</a>
+</li>
+<li>
+<a class="share-network share-network-mailru" href="https://connect.mail.ru/share?url=https%3A%2F%2Fwww.mytravelmap.xyz%2Fcompare%2Ffb10154281877358816%2F1780744032863%3Flocale%3Dit&amp;title=Ho+esplorato+il+21.06%25+del+pianeta&amp;description=Crea+la+tua+mappa+di+viaggio+e+condividila+con+i+tuoi+amici&amp;image_url=https%3A%2F%2Fwww.mytravelmap.xyz%2FworldMap%2Fimages%2F408%2F264%2Ffb10154281877358816%2F1780744032863.png" target="_blank" rel="noopener" id="id21">
+<span class="share-network-icon share-network-icon-image" aria-hidden="true"><img src="/images/mailru.svg" alt=""></span><span class="share-network-label">Mail.Ru</span>
+</a>
+</li>
+<li>
+<a class="share-network share-network-vk" href="https://vk.com/share.php?url=https%3A%2F%2Fwww.mytravelmap.xyz%2Fcompare%2Ffb10154281877358816%2F1780744032863%3Flocale%3Dit" target="_blank" rel="noopener" id="id22">
+<span class="share-network-icon fa fa-vk" aria-hidden="true"></span><span class="share-network-label">VKontakte</span>
+</a>
+</li>
+<li>
+<a class="share-network share-network-douban" href="http://www.douban.com/share/service?name=Ho+esplorato+il+21.06%25+del+pianeta+%23mytravelmap&amp;text=Crea+la+tua+mappa+di+viaggio+e+condividila+con+i+tuoi+amici&amp;image=https%3A%2F%2Fwww.mytravelmap.xyz%2FworldMap%2Fimages%2F408%2F264%2Ffb10154281877358816%2F1780744032863.png&amp;href=https%3A%2F%2Fwww.mytravelmap.xyz%2Fcompare%2Ffb10154281877358816%2F1780744032863%3Flocale%3Dit" target="_blank" rel="noopener" id="id23">
+<span class="share-network-icon share-network-icon-image" aria-hidden="true"><img src="/images/douban.svg" alt=""></span><span class="share-network-label">Douban</span>
+</a>
+</li>
+<li>
+<a class="share-network share-network-qzone" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?title=Ho+esplorato+il+21.06%25+del+pianeta&amp;desc=%23mytravelmap&amp;summary=Crea+la+tua+mappa+di+viaggio+e+condividila+con+i+tuoi+amici&amp;pics=https%3A%2F%2Fwww.mytravelmap.xyz%2FworldMap%2Fimages%2F408%2F264%2Ffb10154281877358816%2F1780744032863.png&amp;url=https%3A%2F%2Fwww.mytravelmap.xyz%2Fcompare%2Ffb10154281877358816%2F1780744032863%3Flocale%3Dit" target="_blank" rel="noopener" id="id24">
+<span class="share-network-icon share-network-icon-image" aria-hidden="true"><img src="/images/qzone.svg" alt=""></span><span class="share-network-label">Qzone</span>
+</a>
+</li>
+<li>
+<a class="share-network share-network-renren" href="http://widget.renren.com/dialog/share?resourceUrl=https%3A%2F%2Fwww.mytravelmap.xyz%2Fcompare%2Ffb10154281877358816%2F1780744032863%3Flocale%3Dit&amp;srcUrl=https%3A%2F%2Fwww.mytravelmap.xyz%2Fcompare%2Ffb10154281877358816%2F1780744032863%3Flocale%3Dit&amp;pic=https%3A%2F%2Fwww.mytravelmap.xyz%2FworldMap%2Fimages%2F408%2F264%2Ffb10154281877358816%2F1780744032863.png&amp;title=Ho+esplorato+il+21.06%25+del+pianeta+%23mytravelmap&amp;description=Crea+la+tua+mappa+di+viaggio+e+condividila+con+i+tuoi+amici" target="_blank" rel="noopener" id="id25">
+<span class="share-network-icon fa fa-renren" aria-hidden="true"></span><span class="share-network-label">Renren</span>
+</a>
+</li>
+<li>
+<a class="share-network share-network-weibo" href="http://service.weibo.com/share/share.php?title=Ho+esplorato+il+21.06%25+del+pianeta+%23mytravelmap&amp;url=https%3A%2F%2Fwww.mytravelmap.xyz%2Fcompare%2Ffb10154281877358816%2F1780744032863%3Flocale%3Dit&amp;pic=https%3A%2F%2Fwww.mytravelmap.xyz%2FworldMap%2Fimages%2F408%2F264%2Ffb10154281877358816%2F1780744032863.png&amp;language=it" target="_blank" rel="noopener" id="id26">
+<span class="share-network-icon fa fa-weibo" aria-hidden="true"></span><span class="share-network-label">Weibo</span>
+</a>
+</li>
+</ul>
+</li>
+<li class="btn-md map-action-item">
+<span id="permalinkDialog">
+<div style="padding: 4px;" class="">
+<span style="display: inline-block; margin-right: 0.1em; vertical-align: middle;" class="">
+</span>
+<span style="vertical-align: middle;" id="id27"><div><b>La tua mappa</b></div><span style='font-size: 0.9em;'>https://www.mytravelmap.xyz/u/fb10154281877358816</span></span>
+</div>
+</span>
+<a id="permalink" class="map-action-link" href="./?0-4.-shareButtonsContainer-permalink"><span class="fa fa-link map-action-icon" aria-hidden="true"></span><span>Permalink</span></a>
+</li>
+<li class="btn-md map-action-item">
+<div id="id1">
+<form id="id1a" method="post" action="./?0-4.-shareButtonsContainer-wallpaperConfigDialog-form"><div id="id1a_hf_0" hidden="" class="hidden-fields"></div>
+<div></div>
+<table id="wallpaperConfigTable">
+<tr>
+<td class="wallpaperLabel">Larghezza:</td>
+<td><input type="number" value="1920" name="width" min="50" max="2050" step="50"/></td>
+</tr>
+<tr>
+<td class="wallpaperLabel">Altezza:</td>
+<td><input type="number" value="1080" name="height" min="50" max="2050" step="50"/></td>
+</tr>
+<tr>
+<td class="wallpaperLabel">Colori:</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td class="wallpaperLabel">Sono nato/a qui:</td>
+<td><input type="color" value="#792431" name="colorBorn"/></td>
+</tr>
+<tr>
+<td class="wallpaperLabel">Ho vissuto qui:</td>
+<td><input type="color" value="#EF3D63" name="colorLived"/></td>
+</tr>
+<tr>
+<td class="wallpaperLabel">Ho visitato:</td>
+<td><input type="color" value="#C376A6" name="colorVisited"/></td>
+</tr>
+<tr>
+<td class="wallpaperLabel">Altri paesi:</td>
+<td><input type="color" value="#606060" name="fgColor"/></td>
+</tr>
+<tr>
+<td class="wallpaperLabel">Mare:</td>
+<td><input type="color" value="#d3cdff" name="bgColor"/></td>
+</tr>
+</table>
+<br />
+<div id="id28">
+
+</div>
+</form>
+</div>
+<a href="./?0-4.-shareButtonsContainer-wallpaperLink" class="map-action-link" id="id1b"><span class="fa fa-picture-o map-action-icon" aria-hidden="true"></span><span>Wallpaper Map</span></a>
+</li>
+</ul>
+<div id="wipeOutContainer" class="mybutton">
+<span id="wipeOutDialog">
+<div style="padding: 4px;" class="ui-state-highlight ui-corner-all">
+<span style="display: inline-block; margin-right: 0.1em; vertical-align: middle;" class="ui-icon ui-icon-alert">
+</span>
+<span style="vertical-align: middle;" id="id29">Sei sicuro/a di voler cancellare TUTTI i tuoi dati dal nostro sistema? è un&#039;azione irreversibile! Cliccando OK, tutti i tuoi dati andranno persi!</span>
+</div>
+</span>
+<a id="wipeOutLink" class="wipe-out-action" href="./?0-4.-shareButtonsContainer-wipeOutLink"><span class="fa fa-shield wipe-out-icon" aria-hidden="true"></span><span>Cancella tutti i miei dati</span></a>
+</div>
+</div>
+</div>
+</div>
+<div id="worldMapContainer">
+<object id="worldMap" type="image/svg+xml" data="images/world.svg?202606112200">
+Your browser doesn't support SVG
+</object>
+<div id="selectCountryBoxContainer">
+<div id="selectCountryBox">
+<form id="id11" method="post" action="./?0-4.-form"><div id="id11_hf_0" hidden="" class="hidden-fields"></div>
+<input id="autocomplete" type="text" placeholder="Digita il nome di un Paese"/>
+<input id="x" type="hidden" value="GET_CURRENT_MAP_ON_PAGE_LOAD" name="x"/>
+</form>
+</div>
+</div>
+</div>
+<div class="yesim-banner-container" id="id12">
+<a class="yesim-banner-link" href="https://yesim.app/?partner_id=4773" target="_blank" rel="noopener sponsored nofollow">
+<picture class="yesim-banner-picture">
+<source media="(max-width: 700px)" srcset="/images/yesim/standalone_728x90.png" />
+<img class="yesim-banner-image" src="/images/yesim/desktop_970x90.png" alt="eSIM da viaggio Yesim"/>
+</picture>
+</a>
+</div>
+<div id="id13">
+<section class="progress-layer-shell progress-layer-shell-authenticated">
+<div class="progress-layer">
+<div class="progress-layer-header">
+<div>
+<h2 class="progress-layer-title">Progresso di viaggio</h2>
+<p class="progress-layer-subtitle">Tieni traccia della mappa che hai costruito e guarda il prossimo traguardo a colpo d’occhio.</p>
+</div>
+</div>
+<div class="progress-metrics">
+<div class="progress-metric">
+<div class="progress-metric-label">Paesi sulla tua mappa</div>
+<div class="progress-metric-value">78</div>
+<div class="progress-metric-note"><p>77 visitati<br/>0 in cui hai vissuto<br/>1 di nascita</p></div>
+</div>
+<div class="progress-metric">
+<div class="progress-metric-label">Copertura del mondo</div>
+<div class="progress-metric-value">21,06%</div>
+<div class="progress-metric-note">78 di 249 paesi</div>
+<div class="progress-metric-note">75 di 193 Stati membri ONU</div>
+<div class="progress-metric-note">21,06% della superficie mondiale</div>
+</div>
+<div class="progress-metric">
+<div class="progress-metric-label">Continenti iniziati</div>
+<div class="progress-metric-value">5/6</div>
+<div class="progress-metric-note">0 completati</div>
+</div>
+<div class="progress-metric">
+<div class="progress-metric-label">Prossimo traguardo</div>
+<div class="progress-metric-value">100 paesi</div>
+<div class="progress-metric-note">22 altri paesi da raggiungere</div>
+</div>
+</div>
+<div class="progress-sections">
+<div class="progress-section">
+<div class="progress-section-title">Completamento dei continenti</div>
+<div class="progress-section-subtitle">Vedi quali parti del mondo sono vicine al completamento.</div>
+<ul class="progress-continent-list">
+<li class="progress-continent-item">
+<div class="progress-continent-row">
+<span class="progress-continent-name">Africa</span>
+<span class="progress-continent-count">6 / 58</span>
+</div>
+<div class="progress-bar">
+<div class="progress-bar-fill" style="width: 10.344827586206897%;"></div>
+</div>
+<div class="progress-continent-note">52 rimasti per completare</div>
+</li>
+</ul><ul class="progress-continent-list">
+<li class="progress-continent-item">
+<div class="progress-continent-row">
+<span class="progress-continent-name">America</span>
+<span class="progress-continent-count">11 / 56</span>
+</div>
+<div class="progress-bar">
+<div class="progress-bar-fill" style="width: 19.642857142857142%;"></div>
+</div>
+<div class="progress-continent-note">45 rimasti per completare</div>
+</li>
+</ul><ul class="progress-continent-list">
+<li class="progress-continent-item">
+<div class="progress-continent-row">
+<span class="progress-continent-name">Asia</span>
+<span class="progress-continent-count">17 / 52</span>
+</div>
+<div class="progress-bar">
+<div class="progress-bar-fill" style="width: 32.69230769230769%;"></div>
+</div>
+<div class="progress-continent-note">35 rimasti per completare</div>
+</li>
+</ul><ul class="progress-continent-list">
+<li class="progress-continent-item">
+<div class="progress-continent-row">
+<span class="progress-continent-name">Europa</span>
+<span class="progress-continent-count">43 / 56</span>
+</div>
+<div class="progress-bar">
+<div class="progress-bar-fill" style="width: 76.78571428571429%;"></div>
+</div>
+<div class="progress-continent-note">13 rimasti per completare</div>
+</li>
+</ul><ul class="progress-continent-list">
+<li class="progress-continent-item">
+<div class="progress-continent-row">
+<span class="progress-continent-name">Oceania &amp; Antartide</span>
+<span class="progress-continent-count">1 / 27</span>
+</div>
+<div class="progress-bar">
+<div class="progress-bar-fill" style="width: 3.7037037037037033%;"></div>
+</div>
+<div class="progress-continent-note">26 rimasti per completare</div>
+</li>
+</ul>
+</div>
+<div class="progress-section">
+<div class="progress-section-title">Obiettivi di viaggio</div>
+<div class="progress-section-subtitle">Brevi serie di traguardi rendono la mappa viva.</div>
+<ul class="progress-goal progress-goal-complete">
+<li class="progress-goal">
+<div class="progress-goal-badge">Fatto</div>
+<div class="progress-goal-value">50 paesi</div>
+<div class="progress-goal-note">Raggiunto</div>
+</li>
+</ul><ul class="progress-goal progress-goal-complete">
+<li class="progress-goal">
+<div class="progress-goal-badge">Fatto</div>
+<div class="progress-goal-value">75 paesi</div>
+<div class="progress-goal-note">Raggiunto</div>
+</li>
+</ul><ul class="progress-goal progress-goal-current">
+<li class="progress-goal">
+<div class="progress-goal-badge">Attuale</div>
+<div class="progress-goal-value">100 paesi</div>
+<div class="progress-goal-note">22 rimasti</div>
+</li>
+</ul><ul class="progress-goal progress-goal-upcoming">
+<li class="progress-goal">
+<div class="progress-goal-badge">Prossimo</div>
+<div class="progress-goal-value">150 paesi</div>
+<div class="progress-goal-note">Obiettivo successivo</div>
+</li>
+</ul><ul class="progress-goal progress-goal-upcoming">
+<li class="progress-goal">
+<div class="progress-goal-badge">Prossimo</div>
+<div class="progress-goal-value">200 paesi</div>
+<div class="progress-goal-note">Obiettivo successivo</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</div>
+<table id="continents">
+<thead>
+<tr>
+<td>
+<h2 class="continent">Africa</h2>
+
+</td><td>
+<h2 class="continent">America</h2>
+
+</td><td>
+<h2 class="continent">Asia</h2>
+
+</td><td>
+<h2 class="continent">Europa</h2>
+
+</td><td>
+<h2 class="continent">Oceania &amp; Antartide</h2>
+
+</td>
+
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<h2 class="continent mobile-continent">Africa</h2>
+<ul class="countries" id="id14">
+<li class="country"><img class="flag" src="/images/flags_iso/24/eg.png"/><span>Egitto</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/et.png"/><span>Etiopia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/ma.png"/><span>Marocco</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/na.png"/><span>Namibia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/sc.png"/><span>Seychelles</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/za.png"/><span>Sudafrica</span></li>
+
+</ul>
+</td>
+<td>
+<h2 class="continent mobile-continent">America</h2>
+<ul class="countries" id="id15">
+<li class="country"><img class="flag" src="/images/flags_iso/24/ar.png"/><span>Argentina</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/bo.png"/><span>Bolivia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/br.png"/><span>Brasile, Bahia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/br.png"/><span>Brasile, Paraná</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/br.png"/><span>Brasile, Rio de Janeiro</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/br.png"/><span>Brasile, São Paulo</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/ca.png"/><span>Canada, Columbia Britannica</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/cl.png"/><span>Cile</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/ec.png"/><span>Ecuador</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/mx.png"/><span>Messico</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/py.png"/><span>Paraguay</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/pe.png"/><span>Perù</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Arizona</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, California</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Colorado</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Dakota del Sud</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Florida</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Georgia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Hawaii</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Idaho</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Louisiana</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Massachusetts</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Montana</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Nevada</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, New York</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Nuovo Messico</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Utah</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Washington</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/us.png"/><span>Stati Uniti, Wyoming</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/uy.png"/><span>Uruguay</span></li>
+
+</ul>
+</td>
+<td>
+<h2 class="continent mobile-continent">Asia</h2>
+<ul class="countries" id="id16">
+<li class="country"><img class="flag" src="/images/flags_iso/24/am.png"/><span>Armenia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/kh.png"/><span>Cambogia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/cn.png"/><span>Cina, Pechino</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/cn.png"/><span>Cina, Shaanxi</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/cn.png"/><span>Cina, Shanghai</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/ae.png"/><span>Emirati Arabi Uniti</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/jp.png"/><span>Giappone</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/jo.png"/><span>Giordania</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/in.png"/><span>India, Haryana</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/in.png"/><span>India, Madhya Pradesh</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/in.png"/><span>India, Rajasthan</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/in.png"/><span>India, Uttar Pradesh</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/il.png"/><span>Israele</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/mv.png"/><span>Maldive</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/my.png"/><span>Malesia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/np.png"/><span>Nepal</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/qa.png"/><span>Qatar</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/sg.png"/><span>Singapore</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/th.png"/><span>Thailandia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/tr.png"/><span>Turchia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/uz.png"/><span>Uzbekistan</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/vn.png"/><span>Vietnam</span></li>
+
+</ul>
+</td>
+<td>
+<h2 class="continent mobile-continent">Europa</h2>
+<ul class="countries" id="id17">
+<li class="country"><img class="flag" src="/images/flags_iso/24/al.png"/><span>Albania</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/ad.png"/><span>Andorra</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/at.png"/><span>Austria</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/be.png"/><span>Belgio</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/ba.png"/><span>Bosnia ed Erzegovina</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/bg.png"/><span>Bulgaria</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/cy.png"/><span>Cipro</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/va.png"/><span>Città del Vaticano</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/hr.png"/><span>Croazia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/dk.png"/><span>Danimarca</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/ee.png"/><span>Estonia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/fi.png"/><span>Finlandia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/fr.png"/><span>Francia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/de.png"/><span>Germania</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/gi.png"/><span>Gibilterra</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/gr.png"/><span>Grecia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/ie.png"/><span>Irlanda</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/is.png"/><span>Islanda</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/it.png"/><span>Italia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/lv.png"/><span>Lettonia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/li.png"/><span>Liechtenstein</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/lt.png"/><span>Lituania</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/lu.png"/><span>Lussemburgo</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/mk.png"/><span>Macedonia del Nord</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/mt.png"/><span>Malta</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/mc.png"/><span>Monaco</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/no.png"/><span>Norvegia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/nl.png"/><span>Paesi Bassi</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/pl.png"/><span>Polonia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/pt.png"/><span>Portogallo</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/gb.png"/><span>Regno Unito, Galles</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/gb.png"/><span>Regno Unito, Inghilterra</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/gb.png"/><span>Regno Unito, Irlanda del Nord</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/gb.png"/><span>Regno Unito, Scozia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/cz.png"/><span>Repubblica Ceca</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/ro.png"/><span>Romania</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/ru.png"/><span>Russia, Mosca (Oblast)</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/sm.png"/><span>San Marino</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/rs.png"/><span>Serbia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/sk.png"/><span>Slovacchia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/si.png"/><span>Slovenia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/es.png"/><span>Spagna</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/sj.png"/><span>Svalbard e Jan Mayen</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/se.png"/><span>Svezia</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/ch.png"/><span>Svizzera</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/hu.png"/><span>Ungheria</span></li>
+
+</ul>
+</td>
+<td>
+<h2 class="continent mobile-continent">Oceania & Antartide</h2>
+<ul class="countries" id="id18">
+<li class="country"><img class="flag" src="/images/flags_iso/24/au.png"/><span>Australia, Australia Meridionale</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/au.png"/><span>Australia, Nuovo Galles del Sud</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/au.png"/><span>Australia, Territorio del Nord</span></li><li class="country"><img class="flag" src="/images/flags_iso/24/au.png"/><span>Australia, Victoria</span></li>
+
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div id="infoDialog" style="display: none;" title="Sei stato in questo Paese?">
+<table style="position: relative; width: 100%;">
+<tr>
+<td><img class="flag" src="/images/1px.png" style="vertical-align: bottom; width: 48px;" /></td>
+<td class="countryName">[Czech Republic]</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td class="stateName">[Ustecky kraj]</td>
+</tr>
+<tr>
+<td class="dialogLabel"><span id="capitalCityNameSpan">Capitale</span><span id="capitalStateCityNameSpan">Capoluogo</span> :</td>
+<td class="dialogData capitalCityName">[Prague]</td>
+</tr>
+<tr>
+<td class="dialogLabel">Popolazione :</td>
+<td class="dialogData population">[10 000 000]</td>
+</tr>
+<tr>
+<td class="dialogLabel">Superficie :</td>
+<td class="dialogData"><span class="area">[74000]</span> km<span style='font-size: 0.7em; vertical-align: super;'>2</span> (<span class="areaPct">[0.05]</span>% del mondo)</td>
+</tr>
+<tr>
+<td colspan="2">
+<div id="yesimOffer" class="yesim-offer" style="display: none;">
+<div class="yesim-offer-copy">
+<div class="yesim-offer-kicker">Sponsorizzato</div>
+<div class="yesim-offer-title">eSIM da viaggio</div>
+<div class="yesim-offer-description"></div>
+</div>
+<div class="yesim-offer-action">
+<div class="yesim-offer-price"></div>
+<div class="yesim-offer-plan"></div>
+<a class="yesim-offer-link" href="https://yesim.app/" target="_blank" rel="noopener sponsored nofollow">Ottieni eSIM da viaggio</a>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="id2">
+<div style="padding: 4px;" class="">
+<span style="display: inline-block; margin-right: 0.1em; vertical-align: middle;" class="">
+</span>
+<span style="vertical-align: middle;" id="id19">Abbiamo recentemente aggiornato la mappa del mondo e suddiviso Australia, Brasile, Canada, Cina, Groenlandia, India, Russia, Regno Unito e Stati Uniti a livello dei loro stati o regioni. Poiché in precedenza avevi selezionato alcuni di questi paesi, abbiamo dovuto rimuoverli dalla tua mappa di viaggio. Ti chiediamo quindi di aggiornare la tua mappa selezionando gli stati o le regioni corrispondenti che hai visitato, in cui hai vissuto o in cui sei nato/a. Si tratta di un&#039;azione da fare una sola volta e ci scusiamo sinceramente per eventuali disagi. Grazie per la comprensione.</span>
+</div>
+</div>
+
+<div id="footer" style="direction: ltr;">
+<i>Credits:</i>
+<a href="http://www.aha-soft.com/" target="_blank" class="footerItem" title="Aha-Soft">Aha-Soft</a>,
+<a href="http://www.icondrawer.com" target="_blank" class="footerItem" title="IconDrawer">IconDrawer</a>,
+<a href="https://www.flaticon.com/authors/freepik" target="_blank" class="footerItem" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com" target="_blank" class="footerItem" title="Flaticon">www.flaticon.com</a>,
+<span><a href="https://silktide.com/tools/cookie-consent" target="_blank" class="footerItem">Fucking EU cookies</a></span>
+<br/>
+<a href="/developers" target="_blank" class="footerItem">For developers API</a>
+&bull;
+<a href="./privacy" class="footerItem" id="id6">Privacy policy</a>
+&bull;
+<a href="/cdn-cgi/l/email-protection#0960676f664964707d7b687f6c6564687927717073" class="footerItem">Contattaci: <span class="__cf_email__" data-cfemail="adc4c3cbc2edc0d4d9dfccdbc8c1c0ccdd83d5d4d7">[email&#160;protected]</span></a>
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

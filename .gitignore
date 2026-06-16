@@ -1,0 +1,13 @@
+# Local credentials - never commit
+secrets.py
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Generated map output
+world.png
+world.bmp

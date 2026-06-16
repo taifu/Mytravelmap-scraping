@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For developers API</title>
+<style type="text/css">
+/*<![CDATA[*/
+
+body {
+margin-bottom: 5em;
+}
+h4 {
+margin-bottom: 0.25em;
+margin-top: 2em;
+}
+table, th, td {
+border: 1px solid black;
+}
+table {
+border-collapse: collapse;
+}
+tr:nth-child(odd) {
+background-color: #f2f2f2
+}
+td, th {
+padding: 0.2em 0.5em;
+vertical-align: top;
+}
+th {
+text-align: left;
+}
+.label {
+font-weight: bold;
+}
+
+/*]]>*/
+</style>
+</head>
+<body>
+<h1>For developers API</h1>
+Base URL for all API services:
+<b>http://www.mytravelmap.xyz/api/v1/</b><br />
+Latest API version is <b>v1</b> as indicated in the URL.<br /><br />
+All requests to our API must contain application key (passed as appKey parameter). Please, send us an email to <a href="/cdn-cgi/l/email-protection#5831363e371835212c2a392e3d3435392876202122672b2d3a323d3b2c6519081178333d21782a3d292d3d2b2c7e3a373c2165117f3c783431333d782c37782a3d292d3d2b2c7839367839282834313b392c31373678333d21783e372a7815210c2a392e3d341539287819081176"><span class="__cf_email__" data-cfemail="11787f777e517c6865637067747d7c70613f69686b">[email&#160;protected]</span></a> to get your own application key. Together with the application key you will be given an application shared secret (referred to as APP_SHARED_SECRET), which you must keep secure at all times! Note, that application shared secret should never be sent over the network as part of a request!<br/>
+<h4 id="testAppKey">Using testing app key</h4>
+For testing purposes and to evaluate our API first, you may use "<b>TESTAPPKEY000000</b>" application key. When using this specific application key, signing of the requests <i>(calculation of the 'sig' parameter)</i> is not necessary. In such case, there is a hard limit of total number of requests per minute! If the hard limit is exceeded, a response with a status code <b>429 Too Many Requests</b> will be returned! Note, that this very same application key is shared globally with everyone, therefore reaching the allowance of total number of requests per minute might be a common case. As such, its use is meant for development only! The validity of this application key might be discontinued anytime without a prior notice!
+<h2>Services</h2>
+<h3>1) Generate world map</h3>
+<table>
+<tr>
+<td class="label">Endpoint:</td>
+<td>GET world.{FILE_TYPE}</td>
+</tr>
+<tr>
+<td class="label">Resource URL:</td>
+<td>http://www.mytravelmap.xyz/api/v1/world.{FILE_TYPE}</td>
+</tr>
+<tr>
+<td class="label">FILE_TYPE:</td>
+<td>json - generates JSON response with detailed textual information of the resulting image<br />png - generates actual image in PNG format<br />bmp - generates actual image in BMP format
+</td>
+</tr>
+</table>
+<h4>Parameters</h4>
+<table>
+<tr>
+<th>Name</th>
+<th>Required</th>
+<th>Description</th>
+<th>Default value</th>
+<th style="width: 40%;">Example</th>
+</tr>
+<tr>
+<td class="label">appKey</td>
+<td>Yes</td>
+<td>Application identifier</td>
+<td></td>
+<td>JKUmj2fjJMgOQs3Y</td>
+</tr>
+<tr>
+<td class="label">width</td>
+<td>Yes</td>
+<td>Image width (px) (max 2050)</td>
+<td></td>
+<td>1024</td>
+</tr>
+<tr>
+<td class="label">height</td>
+<td>Yes</td>
+<td>Image height (px) (max 2050)</td>
+<td></td>
+<td>512</td>
+</tr>
+<tr>
+<td class="label">bgColor</td>
+<td>No</td>
+<td>Image background color (sea).<br /><i>(either 6 hexadecimal RGB or 8 hexadecimal RGBA)</i>
+</td>
+<td>ffffff</td>
+<td>RGB&emsp;- c0c0c0 <br />RGBA - c0c0c099
+</td>
+</tr>
+<tr>
+<td class="label">fgColor</td>
+<td>No</td>
+<td>Image foreground color (land).<br /><i>(either 6 hexadecimal RGB or 8 hexadecimal RGBA)</i>
+</td>
+<td>a9a9a9</td>
+<td>RGB&emsp;- c0c0c0 <br />RGBA - c0c0c099
+</td>
+</tr>
+<tr>
+<td class="label">dither</td>
+<td>No</td>
+<td>Intentionally applied form of noise. See <a href="https://en.wikipedia.org/wiki/Dither" target="_blank">Wikipedia - Dither</a>
+</td>
+<td>no</td>
+<td>no<br />yes
+</td>
+</tr>
+<tr>
+<td class="label">geo</td>
+<td>No (possible to use multiple times)</td>
+<td>List of GPS coordinates colored with a specified color.<br/>At least one GPS coordinate (in the format lat,lon) has to be specified.<br /><i>Value format either 'rgb$lat,lon!...' or 'rgba$lat,lon!...'</i></td>
+<td></td>
+<td>
+990000$50.361459,13.851300<br/>
+990000$50.361459,13.851300!32.548774,35.857268<br/>
+990000$50.361459,13.851300!32.548774,35.857268!3.113924,101.617261<br/>
+cc7700aa$50.361459,13.851300<br/>
+cc7700aa$50.361459,13.851300!32.548774,35.857268<br/>
+cc7700aa$50.361459,13.851300!32.548774,35.857268!3.113924,101.617261<br/>
+</td>
+</tr>
+<tr>
+<td class="label" id="pin">pin</td>
+<td>No (possible to use multiple times)</td>
+<td>List of GPS coordinates colored with a specified color.<br/>At least one GPS coordinate (in the format lat,lon) has to be specified.<br /><i>Value format either 'rgb$lat,lon!...' or 'rgba$lat,lon!...'</i><br/><br/>The pins will always be placed <b>in the middle</b> of country which contains the GPS coordinate!</td>
+<td></td>
+<td>
+990000$50.361459,13.851300<br/>
+990000$50.361459,13.851300!32.548774,35.857268<br/>
+990000$50.361459,13.851300!32.548774,35.857268!3.113924,101.617261<br/>
+cc7700aa$50.361459,13.851300<br/>
+cc7700aa$50.361459,13.851300!32.548774,35.857268<br/>
+cc7700aa$50.361459,13.851300!32.548774,35.857268!3.113924,101.617261<br/>
+</td>
+</tr>
+<tr>
+<td class="label">pinScale</td>
+<td>No</td>
+<td>Size of the pin.<br />This attribute will have an effect only when used together with <a href="#pin">pin</a> attribute.</td>
+<td>0.3</td>
+<td>0.75</td>
+</tr>
+<tr>
+<td class="label">pinLabelColor</td>
+<td>No</td>
+<td>Color of the label (country name) displayed above the pin.<br />This attribute will have an effect only when used together with <a href="#pinLabelSize">pinLabelSize</a> attribute.<br /><i>(either 6 hexadecimal RGB or 8 hexadecimal RGBA)</i></td>
+<td>000000</td>
+<td>RGB&emsp;- c0c0c0 <br />RGBA - c0c0c099</td>
+</tr>
+<tr>
+<td class="label">pinLabelFont</td>
+<td>No</td>
+<td>Font family of the label (country name) displayed above the pin.<br />This attribute will have an effect only when used together with <a href="#pinLabelSize">pinLabelSize</a> attribute.</td>
+<td>sans-serif</td>
+<td>sans-serif, serif, Arial,...</td>
+</tr>
+<tr>
+<td class="label">pinLabelLocale</td>
+<td>No</td>
+<td>Locale of the label (country name) displayed above the pin.<br />This attribute will have an effect only when used together with <a href="#pinLabelSize">pinLabelSize</a> attribute.</td>
+<td>en</td>
+<td>All supported locales:<br/> <span>Albanian (<b>sq</b>), Amharic (<b>am</b>), Arabic (<b>ar</b>), Armenian (<b>hy</b>), Azerbaijani (<b>az</b>), Bangla (<b>bn</b>), Belarusian (<b>be</b>), Bulgarian (<b>bg</b>), Burmese (<b>my</b>), Catalan (<b>ca</b>), Chinese (<b>zh-CN</b>), Chinese (<b>zh-TW</b>), Croatian (<b>hr</b>), Czech (<b>cs</b>), Danish (<b>da</b>), Dutch (<b>nl</b>), English (<b>en</b>), Estonian (<b>et</b>), Filipino (<b>fil</b>), Finnish (<b>fi</b>), French (<b>fr</b>), Georgian (<b>ka</b>), German (<b>de</b>), Greek (<b>el</b>), Hebrew (<b>he</b>), Hindi (<b>hi</b>), Hungarian (<b>hu</b>), Indonesian (<b>id</b>), Italian (<b>it</b>), Japanese (<b>ja</b>), Kazakh (<b>kk</b>), Korean (<b>ko</b>), Lao (<b>lo</b>), Latvian (<b>lv</b>), Lithuanian (<b>lt</b>), Malay (<b>ms</b>), Mongolian (<b>mn</b>), Nepali (<b>ne</b>), Norwegian (<b>no</b>), Persian (<b>fa</b>), Polish (<b>pl</b>), Portuguese (<b>pt-BR</b>), Portuguese (<b>pt-PT</b>), Romanian (<b>ro</b>), Russian (<b>ru</b>), Serbian (<b>sr</b>), Slovak (<b>sk</b>), Slovenian (<b>sl</b>), Spanish (<b>es</b>), Swahili (<b>sw</b>), Swedish (<b>sv</b>), Tamil (<b>ta</b>), Thai (<b>th</b>), Turkish (<b>tr</b>), Ukrainian (<b>uk</b>), Urdu (<b>ur</b>), Uzbek (<b>uz</b>), Vietnamese (<b>vi</b>)</span></td>
+</tr>
+<tr>
+<td class="label" id="pinLabelSize">pinLabelSize</td>
+<td>No</td>
+<td>Size of the label (country name) displayed above the pin. Unit is <b>pt</b>.<br />All the other pinLabel* attributes will have effect only if this attribute is a <b>positive integer.</b></td>
+<td>0</td>
+<td>6</td>
+</tr>
+<tr>
+<td class="label">pinLabelWeight</td>
+<td>No</td>
+<td>Font weight of the label (country name) displayed above the pin.<br />This attribute will have an effect only when used together with <a href="#pinLabelSize">pinLabelSize</a> attribute.</td>
+<td>normal</td>
+<td>normal, bold</td>
+</tr>
+<tr>
+<td class="label" id="userId">userId</td>
+<td>No</td>
+<td>User ID in our system.</td>
+<td></td>
+<td>Each user can check their ID after logging in into our website and by clicking on "Permalink" on the left menu. A popup window will display the user's permalink. The last part of the permalink is the user's ID in our system.<br />For example in the following permalink <a href="https://www.mytravelmap.xyz/u/fb10153329637423541">https://www.mytravelmap.xyz/u/fb10153329637423541</a> the <b>fb10153329637423541</b> is the user's ID.</td>
+</tr>
+<tr>
+<td class="label">userColorBorn</td>
+<td>No</td>
+<td>Color of the country the user was born in.<br /><i>(either 6 hexadecimal RGB or 8 hexadecimal RGBA)</i><br/><br/>This parameter is only used when <a href="#userId">userId</a> is specified as well.</td>
+<td>000000</td>
+<td>RGB&emsp;- c0c0c0 <br />RGBA - c0c0c099</td>
+</tr>
+<tr>
+<td class="label">userColorLived</td>
+<td>No</td>
+<td>Color of the country the user has lived in.<br /><i>(either 6 hexadecimal RGB or 8 hexadecimal RGBA)</i><br/><br/>This parameter is only used when <a href="#userId">userId</a> is specified as well.</td>
+<td>000000</td>
+<td>RGB&emsp;- c0c0c0 <br />RGBA - c0c0c099</td>
+</tr>
+<tr>
+<td class="label">userColorVisited</td>
+<td>No</td>
+<td>Color of the country the user has visited.<br /><i>(either 6 hexadecimal RGB or 8 hexadecimal RGBA)</i><br/><br/>This parameter is only used when <a href="#userId">userId</a> is specified as well.</td>
+<td>000000</td>
+<td>RGB&emsp;- c0c0c0 <br />RGBA - c0c0c099</td>
+</tr>
+<tr>
+<td class="label">sig</td>
+<td>Yes (when using your app key)<br />No (when using <a href="#testAppKey">testing app key</a>)</td>
+<td>Request signature which is created for security reasons
+</td>
+<td></td>
+<td>bf72dbe5fb6f588ff3df6fcb23587b220c204da3</td>
+</tr>
+</table>
+<h4>Creating a Request Signature</h4>
+The parameter <b>sig</b> equals SHA1 from the concatenation of the following strings:<br/>
+<ul>
+<li>Arrange all request parameters (parameter_name=parameter_value) alphabetically in ascending order. <i>(Except the 'sig' parameter which value we are calculating right now)</i></li>
+<li>APP_SHARED_SECRET</li>
+</ul>
+Calculate the 'sig' value as <b>sha1(concatenatedParametersAPP_SHARED_SECRET)</b><br/><br/>
+Pseudocode:
+<pre>
+	<code>
+  $sign = '';
+  foreach ($sortedUrlParameters as $key => $value) {
+  &ensp;&ensp;if ($key != 'sig') {
+	&ensp;$sign .= ($key.'='.$value);
+  &ensp;&ensp;}
+  }
+  $sign .= APP_SHARED_SECRET;
+  $sign = sha1($sign);
+	</code>
+  </pre>
+An example how to calculate the signature:
+<ol>
+<li>Application key: <span style="color: #003399; font-weight: bold;">SomeAppKey001</span></li>
+<li>Application shared key: <span style="color: #ff0000; font-weight: bold;">SomeAppSharedKey001</span></li>
+<li>Parameters of the request we want to send (query string): <span style="font-weight: bold;"><span style="color: #003399;">appKey=SomeAppKey001</span>&amp;<span style="color: #00cc00;">bgColor=ff660033</span>&amp;<span style="color: #ff9900;">fgColor=993333bb</span>&amp;<span style="color: #666699;">width=2048</span>&amp;<span style="color: #cc6699;">height=1024</span>&amp;<span style="color: #cc00cc;">geo=990000$50.361459,13.851300</span>&amp;<span style="color: #009999;">geo=f2d70c$32.548774,35.857268</span>&amp;<span style="color: #663300;">geo=403edddd$3.113924,101.617261</span></span></li>
+<li>Sort all parameters (param_name=param_value) alphabetically and concatenate them</li>
+<li>Append the application shared key</li>
+<li>Calculate SHA1 of such string: <span style="font-weight: bold;">SHA1(<span style="color: #003399;">appKey=SomeAppKey001</span><span style="color: #00cc00;">bgColor=ff660033</span><span style="color: #ff9900;">fgColor=993333bb</span><span style="color: #663300;">geo=403edddd$3.113924,101.617261</span><span style="color: #cc00cc;">geo=990000$50.361459,13.851300</span><span style="color: #009999;">geo=f2d70c$32.548774,35.857268</span><span style="color: #cc6699;">height=1024</span><span style="color: #666699;">width=2048</span><span style="color: #ff0000;">SomeAppSharedKey001</span>)</span></li>
+</ol>
+<h4>Examples:</h4>
+<ul>
+<li><a href="https://www.mytravelmap.xyz/api/v1/world.png?appKey=mytravelmap&bgColor=ff660033&fgColor=993333bb&width=2048&height=1024&geo=990000$50.361459,13.851300!32.548774,35.857268!3.113924,101.617261&sig=faa8a175a1e19426678861a430b37deae56e59a0">Three selected countries with the same color</a></li>
+<li><a href="https://www.mytravelmap.xyz/api/v1/world.png?appKey=mytravelmap&bgColor=ff660033&fgColor=993333bb&width=2048&height=1024&geo=990000$50.361459,13.851300&geo=f2d70c$32.548774,35.857268&geo=403edddd$3.113924,101.617261&sig=740110d03d7ebf4c254313dd79636b5c253d47d8">Three selected countries each with its unique color</a></li>
+<li><a href="https://www.mytravelmap.xyz/api/v1/world.png?appKey=mytravelmap&bgColor=ff660033&fgColor=993333bb&width=2048&height=1024&pin=ffff00$35.7356282,139.7219086!24.3883309,54.6024456!23.017118,-82.3508241!-34.6155729,-58.5033602!10.7687085,106.4141731!50.361459,13.851300&pin=0000ff77$32.548774,35.857268!3.113924,101.617261&geo=990000$50.361459,13.851300!32.548774,35.857268!3.113924,101.617261&pin=ff0000$51.1480418,71.0501846!42.1880892,12.765955!30.0595581,31.2234448&sig=97be45c4d8647dc5a8cc93dff091ede62fc4c361">Three selected countries with the same color and a bunch of pins with different colors scattered across number of countries</a></li>
+<li><a href="https://www.mytravelmap.xyz/api/v1/world.png?appKey=mytravelmap&bgColor=ff660033&fgColor=993333bb&width=2048&height=1024&pin=ffff00$35.7356282,139.7219086!12.1173075,104.7786353!23.017118,-82.3508241!-34.6155729,-58.5033602!50.361459,13.851300&pin=0000ff77$32.548774,35.857268!3.113924,101.617261&geo=990000$50.361459,13.851300!32.548774,35.857268!3.113924,101.617261&pin=ff0000$51.1480418,71.0501846!42.1880892,12.765955!30.0595581,31.2234448&pinLabelSize=6&pinLabelWeight=bold&pinLabelFont=sans-serif&pinLabelLocale=ru&sig=3d19667d262bba1967182d2d5a0d84234e241b0e">Three selected countries with the same color and a bunch of pins with different colors scattered across number of countries with displayed and localized country names above the pin</a></li>
+</ul>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
