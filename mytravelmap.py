@@ -26,8 +26,9 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import sys
-from typing import Iterable, List, Optional, Tuple
+from typing import Dict, Iterable, List, Optional, Tuple
 
 import requests
 
@@ -35,8 +36,8 @@ BASE_URL = "http://www.mytravelmap.xyz/api/v1/"
 TEST_APP_KEY = "TESTAPPKEY000000"
 
 
-def load_credentials() -> Tuple[Optional[str], Optional[str]]:
-    """Read (APP_KEY, APP_SHARED_SECRET) from an optional ``secrets.py`` file.
+def load_credentials() -> Tuple[Optional[str], Optional[str], Optional[str]]:
+    """Read (APP_KEY, APP_SHARED_SECRET, USER_ID) from an optional ``secrets.py``.
 
     The file lives next to this module and is entirely optional: if it does not
     exist (or doesn't define the names) ``None`` is returned for the missing
@@ -45,13 +46,14 @@ def load_credentials() -> Tuple[Optional[str], Optional[str]]:
 
         APP_KEY = "yourAppKey"
         APP_SHARED_SECRET = "yourSharedSecret"
+        USER_ID = "your-public-user-id"  # last part of your Permalink
     """
     import importlib.util
     import os
 
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "secrets.py")
     if not os.path.isfile(path):
-        return None, None
+        return None, None, None
 
     spec = importlib.util.spec_from_file_location("_mtm_secrets", path)
     module = importlib.util.module_from_spec(spec)
@@ -59,6 +61,7 @@ def load_credentials() -> Tuple[Optional[str], Optional[str]]:
     return (
         getattr(module, "APP_KEY", None),
         getattr(module, "APP_SHARED_SECRET", None),
+        getattr(module, "USER_ID", None),
     )
 
 # A param list is a list of (name, value) pairs. A list (not a dict) is used
@@ -196,9 +199,129 @@ class MyTravelMapClient:
         response.raise_for_status()
         return response
 
+    def get_user_countries(
+        self, user_id: str, locale: Optional[str] = None
+    ) -> dict:
+        """Call ``GET countries.json`` and return the parsed JSON payload.
+
+        Returns the user's countries grouped by status (BORN, LIVED, VISITED,
+        WANT_TO_VISIT); each country has an ``isoCode`` and localized ``name``.
+        ``locale`` selects the language of the names (default ``en``).
+        """
+        extra: ParamList = [("userId", user_id)]
+        if locale:
+            extra.append(("locale", locale))
+
+        params = self._build_params(extra)
+        url = f"{self.base_url}countries.json"
+
+        response = requests.get(url, params=params, timeout=self.timeout)
+        if response.status_code == 429:
+            raise RuntimeError(
+                "429 Too Many Requests - the testing app key rate limit was "
+                "exceeded. Try again shortly or use your own app key."
+            )
+        response.raise_for_status()
+        data = response.json()
+        if data.get("status") != "OK":
+            errors = "; ".join(data.get("errors", [])) or "unknown error"
+            raise RuntimeError(f"countries.json returned an error: {errors}")
+        return data
+
 
 # Re-export the helper at module level for convenience.
 geo_value = _geo_value
+
+# Status groups returned by countries.json, in display order.
+STATUS_ORDER = ("BORN", "LIVED", "VISITED", "WANT_TO_VISIT")
+
+
+def _base_iso(iso_code: str) -> str:
+    """Country code for an entry, dropping any subdivision suffix.
+
+    ``AU_NS`` / ``AU_VI`` -> ``AU``; ``IT`` -> ``IT``. Used to tell apart
+    "states" (every entry) from "countries" (distinct base ISO codes), the same
+    distinction scrape_countries.py makes.
+    """
+    return iso_code.split("_", 1)[0].upper() if iso_code else ""
+
+
+def add_totals(data: dict) -> dict:
+    """Return the countries payload augmented with a ``totals`` section.
+
+    ``states`` counts list entries (subdivisions counted separately);
+    ``countries`` counts distinct base ISO codes. Totals are reported per status
+    group and overall, mirroring what scrape_countries.py prints per continent.
+    """
+    groups = data.get("countries", {}) or {}
+    by_status: Dict[str, Dict[str, int]] = {}
+    total_states = 0
+    all_isos = set()
+    for status in list(STATUS_ORDER) + [s for s in groups if s not in STATUS_ORDER]:
+        items = groups.get(status, [])
+        isos = {_base_iso(c.get("isoCode", "")) for c in items if c.get("isoCode")}
+        by_status[status] = {"states": len(items), "countries": len(isos)}
+        total_states += len(items)
+        all_isos |= isos
+
+    result = dict(data)
+    result["totals"] = {
+        "byStatus": by_status,
+        "states": total_states,
+        "countries": len(all_isos),
+    }
+    return result
+
+
+def format_countries_summary(data: dict) -> str:
+    """One-line-per-group human summary of the totals in ``data``."""
+    totals = data.get("totals", {})
+    lines = []
+    for status, counts in totals.get("byStatus", {}).items():
+        lines.append(
+            f"  {status}: {counts['states']} states, {counts['countries']} countries"
+        )
+    lines.append(
+        f"  TOTAL: {totals.get('states', 0)} states, "
+        f"{totals.get('countries', 0)} countries"
+    )
+    return "\n".join(lines)
+
+
+def format_countries_text(data: dict) -> str:
+    """Human-readable listing of every country, grouped by status.
+
+    Mirrors scrape_countries.py: each group header shows its state/country
+    counts, and overall totals are printed at the end.
+    """
+    data = data if "totals" in data else add_totals(data)
+    groups = data.get("countries", {}) or {}
+    totals = data["totals"]
+    lines: List[str] = []
+    for status, items in groups.items():
+        counts = totals["byStatus"].get(status, {"states": 0, "countries": 0})
+        header = (
+            f"{status} ({counts['states']} states, {counts['countries']} countries)"
+        )
+        lines.append(f"\n{header}")
+        lines.append("-" * len(header))
+        for c in items:
+            iso = c.get("isoCode", "")
+            prefix = f"[{iso}] " if iso else ""
+            lines.append(f"  {prefix}{c.get('name', '')}")
+    lines.append(f"\nTotal states: {totals.get('states', 0)}")
+    lines.append(f"Total countries: {totals.get('countries', 0)}")
+    return "\n".join(lines).lstrip("\n")
+
+
+def add_date_suffix(path: str) -> str:
+    """Insert today's date before the extension: world.png -> world-2026-06-16.png."""
+    import datetime
+    import os
+
+    stem, ext = os.path.splitext(path)
+    today = datetime.date.today().isoformat()  # YYYY-MM-DD
+    return f"{stem}-{today}{ext}"
 
 
 def _parse_geo_arg(raw: str) -> str:
@@ -240,18 +363,34 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument("--pin-label-locale", help="Label locale, e.g. en, it, ru.")
     parser.add_argument("--pin-label-weight", choices=["normal", "bold"],
                         help="Label font weight.")
-    parser.add_argument("--user-id", help="MyTravelMap user ID.")
+    parser.add_argument("--user-id", help="MyTravelMap public user ID "
+                        "(last part of your Permalink). Falls back to secrets.py.")
     parser.add_argument("--user-color-born", help="Color for user's born country.")
     parser.add_argument("--user-color-lived", help="Color for user's lived countries.")
     parser.add_argument("--user-color-visited", help="Color for user's visited countries.")
-    parser.add_argument("-o", "--output", default="world.png",
-                        help="File to write the result to ('-' for stdout).")
+    parser.add_argument("--countries", action="store_true",
+                        help="Fetch your countries list (countries.json) with totals "
+                             "instead of generating a map image.")
+    parser.add_argument("--locale", help="Language for country names in --countries "
+                        "mode (default en).")
+    parser.add_argument("-o", "--output", default=None,
+                        help="File to write the result to ('-' for stdout). "
+                             "Defaults to world.png, or countries.json with --countries.")
+    parser.add_argument("--date-suffix", action="store_true",
+                        help="Append today's date to the filename, "
+                             "e.g. world-2026-06-16.png.")
+    parser.add_argument("-p", "--print", action="store_true", dest="also_print",
+                        help="Also print your countries list to the screen.")
     args = parser.parse_args(argv)
 
     # Resolve credentials: CLI args win, then secrets.py, then the testing key.
-    secret_key, secret_secret = load_credentials()
+    secret_key, secret_secret, secret_user_id = load_credentials()
     app_key = args.app_key or secret_key or TEST_APP_KEY
     app_secret = args.app_secret or secret_secret
+    user_id = args.user_id or secret_user_id
+
+    if args.countries:
+        return _run_countries(app_key, app_secret, user_id, args)
 
     try:
         client = MyTravelMapClient(app_key=app_key, app_shared_secret=app_secret)
@@ -270,7 +409,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             pin_label_locale=args.pin_label_locale,
             pin_label_size=args.pin_label_size,
             pin_label_weight=args.pin_label_weight,
-            user_id=args.user_id,
+            user_id=user_id,
             user_color_born=args.user_color_born,
             user_color_lived=args.user_color_lived,
             user_color_visited=args.user_color_visited,
@@ -279,14 +418,83 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
 
+    output = args.output or "world.png"
     if args.file_type == "json":
         print(response.text)
-    elif args.output == "-":
+    elif output == "-":
         sys.stdout.buffer.write(response.content)
     else:
-        with open(args.output, "wb") as fh:
+        if args.date_suffix:
+            output = add_date_suffix(output)
+        with open(output, "wb") as fh:
             fh.write(response.content)
-        print(f"Saved {len(response.content)} bytes to {args.output}")
+        print(f"Saved {len(response.content)} bytes to {output}")
+
+    if args.also_print:
+        _print_countries(app_key, app_secret, user_id, args.locale)
+    return 0
+
+
+def _print_countries(
+    app_key: str,
+    app_secret: Optional[str],
+    user_id: Optional[str],
+    locale: Optional[str],
+) -> None:
+    """Fetch and print the user's countries listing to stdout (best effort)."""
+    if not user_id:
+        print(
+            "Note: -p needs a user ID to list your countries. Pass --user-id or "
+            "set USER_ID in secrets.py.",
+            file=sys.stderr,
+        )
+        return
+    try:
+        client = MyTravelMapClient(app_key=app_key, app_shared_secret=app_secret)
+        data = add_totals(client.get_user_countries(user_id, locale=locale))
+    except (ValueError, RuntimeError, requests.RequestException) as exc:
+        print(f"Note: could not list countries: {exc}", file=sys.stderr)
+        return
+    print(format_countries_text(data))
+
+
+def _run_countries(
+    app_key: str,
+    app_secret: Optional[str],
+    user_id: Optional[str],
+    args: argparse.Namespace,
+) -> int:
+    """Fetch countries.json, add totals, and save/print it."""
+    if not user_id:
+        print(
+            "Error: --countries needs a user ID. Pass --user-id or set USER_ID "
+            "in secrets.py (the last part of your Permalink).",
+            file=sys.stderr,
+        )
+        return 2
+
+    try:
+        client = MyTravelMapClient(app_key=app_key, app_shared_secret=app_secret)
+        data = client.get_user_countries(user_id, locale=args.locale)
+    except (ValueError, RuntimeError, requests.RequestException) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+
+    data = add_totals(data)
+    text = json.dumps(data, ensure_ascii=False, indent=2)
+
+    output = args.output or "countries.json"
+    if output == "-":
+        print(text)
+    else:
+        if args.date_suffix:
+            output = add_date_suffix(output)
+        with open(output, "w", encoding="utf-8") as fh:
+            fh.write(text + "\n")
+        print(f"Saved countries to {output}", file=sys.stderr)
+        if args.also_print:
+            print(format_countries_text(data))
+    print(format_countries_summary(data), file=sys.stderr)
     return 0
 
 
